@@ -1,0 +1,105 @@
+<!doctype html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>HOLIDAY 2020</title>
+
+    <link rel="canonical" href="">
+    <meta name="description" content="">
+    <meta property="og:title" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:description" content="" />
+
+    <link rel="stylesheet" href="dist/assets/styles/main.css">
+    <link rel="shortcut icon" type="image/ico" href="dist/assets/images/favicon.png">
+
+    <!-- Inject SVGs Defs for SVG icon use -->
+    <script>
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", "dist/assets/svgs-defs.svg", true);
+      ajax.send();
+      ajax.onload = function(e) {
+        var div = document.createElement("div");
+        div.className += "svg-defs hidden";
+        div.innerHTML = ajax.responseText;
+        document.body.insertBefore(div, document.body.childNodes[0]);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="breakpoint-indicator"></div>
+
+    <div class="fb-logo"><svg aria-hidden="true" role="presentation"><use xlink:href="#fb-logo"/></svg></div>
+
+    <main class="site-main" role="main">
+
+      <div id="intro-section" class="intro-section">
+        <div class="sitewrapper">
+          <blockquote>
+            <p>“All that you touch You Change. All that you Change Changes you. The only lasting truth Is Change.”</p>
+            <cite>Octavia Butler</cite>
+          </blockquote>
+
+          <button id="enter" class="burst-button -red -large"><svg class="burst" aria-hidden="true" role="presentation"><use xlink:href="#burst"/></svg><svg class="icon tada" aria-hidden="true" role="presentation"><use xlink:href="#icon-tada"/></svg></button>
+        </div>
+      </div>
+
+      <div id="scrolling-section" class="scrolling-section" data-index="0" data-color="yellow" data-background="green">
+        <ul class="left">
+          <li class="-active" data-index="0" data-color="yellow" data-background="green">Nurturing</li>
+          <li data-index="1"  data-color="yellow" data-background="green">Listening</li>
+          <li data-index="2"  data-color="yellow" data-background="green">Seeking</li>
+          <li data-index="3" data-color="yellow" data-background="green">Giving</li>
+          <li data-index="4" data-color="yellow" data-background="red">Making</li>
+          <li data-index="5" data-color="yellow" data-background="red">Staying</li>
+          <li data-index="6" data-color="yellow" data-background="red">Letting</li>
+          <li data-index="7" data-color="yellow" data-background="red">Protecting</li>
+          <li data-index="8" data-color="green" data-background="pink">Honoring</li>
+          <li data-index="9" data-color="green" data-background="pink">Choosing</li>
+          <li data-index="10" data-color="green" data-background="pink">Seeing</li>
+          <li data-index="11" data-color="green" data-background="pink">Stepping</li>
+          <li data-index="12" data-color="blue" data-background="purple">Taking</li>
+          <li data-index="13" data-color="blue" data-background="purple">Digging</li>
+          <li data-index="14" data-color="blue" data-background="purple">Welcoming</li>
+          <li data-index="15" data-color="blue" data-background="purple">Turning</li>
+        </ul>
+
+        <ul class="right">
+          <li data-index="15">Pages</li>
+          <li data-index="14">Change</li>
+          <li data-index="13">Deep</li>
+          <li data-index="12">Chances</li>
+          <li data-index="11">Up</li>
+          <li data-index="10">Clearly</li>
+          <li data-index="9">Courage</li>
+          <li data-index="8">Voices</li>
+          <li data-index="7">Rights</li>
+          <li data-index="6">Go</li>
+          <li data-index="5">Strong</li>
+          <li data-index="4">Peace</li>
+          <li data-index="3">Care</li>
+          <li data-index="2">Truth</li>
+          <li data-index="1">Better</li>
+          <li class="-active" data-index="0">Growth</li>
+        </ul>
+      </div>
+
+    </main>
+
+    <script src="dist/assets/scripts/manifest.js"></script>
+    <script src="dist/assets/scripts/vendor.js"></script>
+    <script src="dist/assets/scripts/main.js"></script>
+    <script type="text/javascript">// Google Analytics
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-XXXXX-X']); // Replace "XXXXX-X" with your account code
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>

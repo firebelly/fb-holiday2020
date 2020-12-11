@@ -1,0 +1,102 @@
+// Home page
+
+.intro-section {
+  // display: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  position: fixed;
+  padding-top: 260px;
+  text-align: center;
+  color: color('gray');
+  background-color: color('black');
+
+  blockquote {
+    margin: 0 auto;
+    max-width: 700px;
+
+    p {
+      margin: 0;
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 50px;
+    }
+
+    cite {
+      @include type-attribution;
+      display: block;
+      margin-top: 20px;
+    }
+  }
+
+  button {
+    margin-top: 20px;
+  }
+}
+
+.scrolling-section {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  transition: background-color 0.5s ease-out;
+
+  @each $color, $value in $colors {
+    &[data-color="#{$color}"] {
+      li {
+        &:not(.-active) {
+          text-shadow:
+          -1px -1px 0 $value,
+           1px -1px 0 $value,
+           -1px 1px 0 $value,
+            1px 1px 0 $value;
+        }
+        &.-active {
+          color: $value;
+        }
+      }
+    }
+    &[data-background="#{$color}"] {
+      background-color: $value;
+      li:not(.-active) {
+        color: $value;
+      }
+    }
+  }
+
+  ul {
+    @extend .semantic-list;
+    position: absolute;
+    transition: transform 0.5s ease-out;
+
+    li {
+      font-size: 130px;
+      font-weight: 600;
+      color: transparent;
+      white-space: nowrap;
+      font-variation-settings: 'wdth' 500;
+      transition: font-variation-settings 0.5s ease-out;
+
+      &.-active {
+        color: color('black');
+        font-variation-settings: 'wdth' 250;
+      }
+    }
+
+    &.left {
+      right: 50%;
+      text-align: right;
+      padding-right: 10px;
+      top: calc(50% - 75px);
+    }
+
+    &.right {
+      left: 50%;
+      text-align: left;
+      padding-left: 10px;
+      bottom: calc(50% - 75px);
+    }
+  }
+}

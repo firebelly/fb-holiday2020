@@ -1,0 +1,55 @@
+// Utility Classes
+
+// Visibility
+.hidden,
+.hide {
+  display: none;
+}
+.invisible {
+  visibility: hidden;
+}
+.transparent {
+  opacity: 0;
+}
+.visuallyhidden {
+  border: 0;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+}
+
+// Disable-scrolling
+.no-scroll {
+  position: fixed;
+  overflow: hidden;
+}
+
+// Clearfix
+.clearfix,
+.cf {
+  @include clearfix;
+}
+
+// Semantic List
+.semantic-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Button reset
+.button-reset {
+  border: none;
+  appearance: none;
+  background: none;
+
+  &:hover,
+  &:focus {
+    outline: none;
+  }
+}

@@ -1,0 +1,39 @@
+// Shared Styles
+
+.burst-button {
+  @extend .button-reset;
+  cursor: pointer;
+  position: relative;
+
+  .burst {
+    width: 100px;
+    height: 100px;
+  }
+
+  .icon {
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    fill: color('black');
+    transform: translate(-50%, -50%);
+  }
+
+  // Large Variation
+  &.-large {
+    .burst {
+      width: 160px;
+      height: 160px;
+    }
+  }
+
+  @each $color, $value in $colors {
+    &.-#{$color} {
+      .burst {
+        fill: $value;
+      }
+    }
+  }
+}
