@@ -117,8 +117,26 @@ const common = {
         change = change * -1;
       }
 
-      // To do: add variable font width adjustments based on delta with activeIndex
-      // Math.abs(activeIndex - elementIndex);
+      // Set font styles for adjacent items
+      // THIS IS SUCKING RESOURCES — MAKE IT BETTER!
+      let items = element.querySelectorAll('li');
+      items.forEach(function(item) {
+        let itemIndex = item.getAttribute('data-index');
+        let difference = Math.abs(activeIndex - itemIndex);
+
+        if (difference === 2) {
+          item.style.fontVariationSettings = "'wdth' 620";
+          item.style.fontWidth = "575";
+        } else if (difference === 4 ) {
+          item.style.fontVariationSettings = "'wdth' 620";
+          item.style.fontWidth = "690";
+        } else if (difference === 5 ) {
+          item.style.fontVariationSettings = "'wdth' 800";
+          item.style.fontWidth = "800";
+        } else {
+          item.setAttribute('style', '');
+        }
+      });
 
       let oldItem = element.querySelector('.-active');
       let newItem = element.querySelector('[data-index="' + activeIndex + '"]');

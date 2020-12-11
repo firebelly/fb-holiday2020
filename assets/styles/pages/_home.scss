@@ -73,15 +73,16 @@
 
     li {
       font-size: 130px;
-      font-weight: 600;
+      font-weight: 475;
       color: transparent;
       white-space: nowrap;
-      font-variation-settings: 'wdth' 500;
-      transition: font-variation-settings 0.5s ease-out;
+      font-variation-settings: 'wdth' 490;
+      transition: font-variation-settings 0.5s ease-out, font-weight 0.5s ease-out;
 
       &.-active {
+        font-width: 475;
         color: color('black');
-        font-variation-settings: 'wdth' 250;
+        font-variation-settings: 'wdth' 320;
       }
     }
 
