@@ -3,6 +3,7 @@
 .burst-button {
   @extend .button-reset;
   cursor: pointer;
+  border-radius: 50%;
   position: relative;
 
   .burst {

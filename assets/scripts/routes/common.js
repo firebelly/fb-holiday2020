@@ -27,6 +27,16 @@ const common = {
     // Transition elements to enable/disable on resize
     transitionElements = [];
 
+    // Sticky NOtes
+    let expandableStickyNotes = document.querySelectorAll('.sticky-note.expandable');
+
+    expandableStickyNotes.forEach(function(stickyNote) {
+      let expandButton = stickyNote.querySelector('.expand-sticky');
+      expandButton.addEventListener('click', function() {
+        stickyNote.classList.toggle('-expanded');
+      });
+    });
+
     // Scrolling Functionality
     scrollingSection = document.getElementById('scrolling-section');
     scrollingText = scrollingSection.querySelectorAll('ul');
@@ -149,8 +159,6 @@ const common = {
           fontWeight: "800",
           duration: 0.25
         });
-      } else {
-        item.setAttribute('style', '');
       }
     });
 
