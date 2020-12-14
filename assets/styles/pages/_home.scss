@@ -41,7 +41,8 @@
   height: 100vh;
   overflow: hidden;
   position: relative;
-  transition: background-color 0.5s ease-out;
+  will-change: background-color;
+  transition: background-color 0.25s ease-out;
 
   @each $color, $value in $colors {
     &[data-color="#{$color}"] {
@@ -69,18 +70,20 @@
   ul {
     @extend .semantic-list;
     position: absolute;
-    transition: transform 0.5s ease-out;
+    // transition: transform 0.5s ease-out;
 
     li {
       font-size: 130px;
       font-weight: 475;
       color: transparent;
       white-space: nowrap;
+      transition: color 0.25s ease-out;
       font-variation-settings: 'wdth' 490;
-      transition: font-variation-settings 0.5s ease-out, font-weight 0.5s ease-out;
+      will-change: font-variation-settings, font-weight;
+      // transition: font-variation-settings 0.2s linear, font-weight 0.2s linear;
 
       &.-active {
-        font-width: 475;
+        font-weight: 475;
         color: color('black');
         font-variation-settings: 'wdth' 320;
       }
