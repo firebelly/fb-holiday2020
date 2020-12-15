@@ -39,11 +39,74 @@ const common = {
 
     // Scrolling Functionality
     scrollingSection = document.getElementById('scrolling-section');
+    const scrollingLeft = scrollingSection.querySelector('.left');
+    const scrollingRight = scrollingSection.querySelector('.right');
     scrollingText = scrollingSection.querySelectorAll('ul');
     scrollingSectionHeight = scrollingText[0].offsetHeight;
+
+    const items = scrollingSection.querySelectorAll('li');
+    // recalc these on resize!
+    let halfway = window.innerHeight / 2;
+    let itemHalfHeight = items[0].offsetHeight / 2;
+
     wordCount = scrollingSection.querySelectorAll('li').length / 2;
 
-    common.toggleListener(common.updateScrolling, true);
+    var lastScrollY = 0;
+    var ticking = false;
+
+    var update = function() {
+      // remove active class
+      $('#scrolling-section li.-active').removeClass('-active');
+
+      // Update scrolling position of right-hand side
+      $("#scrolling-section .right").css({
+        "transform": "translate3d(0, " + $('#scrolling-section .left').scrollTop() + "px, 0)"
+      });
+
+      // Adjust the font-settings for each item based on distance from center
+      items.forEach(function(item) {
+        let rect = item.getBoundingClientRect();
+        let win = item.ownerDocument.defaultView
+        let offset = Math.abs(Math.floor(rect.top + win.pageYOffset - halfway + itemHalfHeight));
+
+        if (offset < halfway + itemHalfHeight) {
+          let fontWidth = offset + 320;
+          item.style.fontVariationSettings = '"wdth" ' + fontWidth;
+          item.style.fontWeight = offset + 475;
+        }
+      });
+      ticking = false;
+    };
+
+    var requestTick = function() {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    var onScroll = function() {
+      lastScrollY = scrollingLeft.scrollY;
+      requestTick();
+    };
+
+    // Add Active Classes
+    scrollingLeft.addEventListener('scroll', onScroll);
+
+    // Setup isScrolling variable
+    let isScrolling;
+
+    // Updating active classes after scrolling stops
+    scrollingLeft.addEventListener('scroll', function ( event ) {
+
+      window.clearTimeout( isScrolling );
+
+      // Set a timeout to run after scrolling ends
+      isScrolling = setTimeout(function() {
+        // Run the callback
+        common.updateScrolling();
+      }, 250);
+    }, false);
 
     // Init Functions
     _initIntroScreen();
@@ -97,80 +160,13 @@ const common = {
     }
   },
 
-  updateScrolling(event) {
-    common.toggleListener(common.updateScrolling, false);
-    // if (!event.cancelable) {
-    //   common.toggleListener(common.updateScrolling, true);
-    //   return;
-    // }
-    scrollingSectionHeight = scrollingText[0].offsetHeight;
-    if (event.deltaY > 0) {
-      // scrolling down
-      if (activeIndex === wordCount - 1) {
-        common.toggleListener(common.updateScrolling, true);
-        return;
-      }
-      activeIndex++;
-      scrollDelta -= scrollingSectionHeight / wordCount;
-    } else {
-      // scrolling up
-      if (activeIndex === 0) {
-        common.toggleListener(common.updateScrolling, true);
-        return;
-      }
-      activeIndex--;
-      scrollDelta += scrollingSectionHeight / wordCount;
-    }
-
-    // Set font styles for adjacent items
-    // THIS IS SUCKING RESOURCES — MAKE IT BETTER!
-    let items = scrollingSection.querySelectorAll('li');
-    items.forEach(function(item) {
-      let itemIndex = item.getAttribute('data-index');
-      let difference = Math.abs(activeIndex - itemIndex);
-
-      if (difference === 0) {
-        gsap.to(item, {
-          fontVariationSettings: "'wdth' " + 320,
-          fontWeight: "475",
-          duration: 0.25
-        });
-      } else if (difference === 1) {
-        gsap.to(item, {
-          fontVariationSettings: "'wdth' " + 490,
-          fontWeight: "475",
-          duration: 0.25
-        });
-      } else if (difference === 2) {
-        gsap.to(item, {
-          fontVariationSettings: "'wdth' " + 620,
-          fontWeight: "575",
-          duration: 0.25
-        });
-      } else if (difference === 3 ) {
-        gsap.to(item, {
-          fontVariationSettings: "'wdth' " + 620,
-          fontWeight: "690",
-          duration: 0.25
-        });
-      } else if (difference === 4 ) {
-        gsap.to(item, {
-          fontVariationSettings: "'wdth' " + 800,
-          fontWeight: "800",
-          duration: 0.25
-        });
-      }
-    });
+  updateScrolling() {
+    let sectionH = $('#scrolling-section .left li').first().outerHeight();
+    let activeIndex = Math.floor($("#scrolling-section .left").scrollTop() / sectionH);
 
     scrollingText.forEach(function(element) {
-      let change = scrollDelta;
-      if (element.classList.contains('right')) {
-        change = change * -1;
-      }
-
-      let oldItem = element.querySelector('.-active');
       let newItem = element.querySelector('[data-index="' + activeIndex + '"]');
-      oldItem.classList.remove('-active');
+      newItem.classList.add('-active');
 
       if (newItem.hasAttribute('data-color')) {
         let color = newItem.getAttribute('data-color');
@@ -179,20 +175,21 @@ const common = {
         scrollingSection.setAttribute('data-color', color);
         scrollingSection.setAttribute('data-background', background);
       }
-
-      gsap.to(element, {
-        translateY: change,
-        translateX: 0,
-        translateZ: 0,
-        duration: 0.25,
-        onComplete: function() {
-          newItem.classList.add('-active');
-          common.toggleListener(common.updateScrolling, true);
-        }
-      });
-      // element.style.transform = 'translate3d(0, ' + change + 'px, 0)';
     });
+  },
 
+  // Todo: eyes track mouse
+  // https://codepen.io/laviperchik/pen/mjVpGN
+  eyesTrackingMouse() {
+    var root = document.documentElement;
+
+    document.addEventListener('mousemove', evt => {
+      let x = evt.clientX / innerWidth;
+      let y = evt.clientY / innerHeight;
+
+      root.style.setProperty('--mouse-x', x);
+      root.style.setProperty('--mouse-y', y);
+    });
   },
 
   finalize() {

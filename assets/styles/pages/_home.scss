@@ -69,11 +69,11 @@
 
   ul {
     @extend .semantic-list;
-    position: absolute;
+    position: relative;
     // transition: transform 0.5s ease-out;
 
     li {
-      font-size: 11vh;
+      font-size: 10vh;
       font-weight: 475;
       color: transparent;
       position: relative;
@@ -81,12 +81,12 @@
       transition: color 0.5s ease-out;
       font-variation-settings: 'wdth' 490;
       will-change: font-variation-settings, font-weight;
-      // transition: font-variation-settings 0.2s linear, font-weight 0.2s linear;
+      transition: font-variation-settings 0.2s linear, font-weight 0.2s linear;
 
       &.-active {
-        font-weight: 475;
-        color: color('black');
-        font-variation-settings: 'wdth' 320;
+        // color: color('black');
+        // font-weight: 475;
+        // font-variation-settings: 'wdth' 320;
 
         .sticky-note {
           z-index: 1;
@@ -222,10 +222,19 @@
     }
 
     &.left {
-      right: 50%;
+      height: 100vh;
       text-align: right;
-      padding-right: 10px;
-      top: 43.5vh;
+      overflow-y: scroll;
+      padding-top: 45vh;
+      padding-bottom: 45vh;
+      scroll-snap-type: y mandatory;
+
+      li {
+        right: 50%;
+        margin-right: 10px;
+        position: relative;
+        scroll-snap-align: center;
+      }
 
       .sticky-note {
         right: 25vw;
@@ -235,11 +244,14 @@
     &.right {
       left: 50%;
       text-align: left;
+      position: absolute;
       padding-left: 10px;
-      bottom: 43.5vh;
+      pointer-events: none;
+      bottom: calc(100% - 55.5vh);
 
       .sticky-note {
         left: 25vw;
+        pointer-events: auto;
       }
     }
   }
