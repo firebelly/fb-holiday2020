@@ -64,17 +64,7 @@ const common = {
       });
 
       // Adjust the font-settings for each item based on distance from center
-      items.forEach(function(item) {
-        let rect = item.getBoundingClientRect();
-        let win = item.ownerDocument.defaultView
-        let offset = Math.abs(Math.floor(rect.top + win.pageYOffset - halfway + itemHalfHeight));
 
-        if (offset < halfway + itemHalfHeight) {
-          let fontWidth = offset + 320;
-          item.style.fontVariationSettings = '"wdth" ' + fontWidth;
-          item.style.fontWeight = offset + 475;
-        }
-      });
       ticking = false;
     };
 
@@ -163,6 +153,23 @@ const common = {
   updateScrolling() {
     let sectionH = $('#scrolling-section .left li').first().outerHeight();
     let activeIndex = Math.floor($("#scrolling-section .left").scrollTop() / sectionH);
+
+    scrollingSection = document.getElementById('scrolling-section');
+    const items = scrollingSection.querySelectorAll('li');
+    let halfway = window.innerHeight / 2;
+    let itemHalfHeight = items[0].offsetHeight / 2;
+
+    items.forEach(function(item) {
+      let rect = item.getBoundingClientRect();
+      let win = item.ownerDocument.defaultView
+      let offset = Math.abs(Math.floor(rect.top + win.pageYOffset - halfway + itemHalfHeight));
+
+      if (offset < halfway + itemHalfHeight) {
+        let fontWidth = offset + 320;
+        item.style.fontVariationSettings = '"wdth" ' + fontWidth;
+        item.style.fontWeight = offset + 475;
+      }
+    });
 
     scrollingText.forEach(function(element) {
       let newItem = element.querySelector('[data-index="' + activeIndex + '"]');
