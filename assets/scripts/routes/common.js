@@ -8,6 +8,7 @@ let $window = $(window),
     $body = $('body'),
     body = document.querySelector('body'),
     ticking = false,
+    canVote = false,
     isScrolling,
     activeIndex = 0,
     wordCount,
@@ -33,6 +34,20 @@ const common = {
     common.stickyNotes();
     common.scrollingText();
     common.introScreen();
+
+    // Get URL Params
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? false : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    // Check if visitor can vote
+    canVote = getUrlParameter('p');
+    if (canVote !== false) {
+      body.classList.add('can-vote');
+    }
 
     // Disabling transitions on certain elements on resize
     function _disableTransitions() {
@@ -70,6 +85,7 @@ const common = {
 
     function enterSite() {
       // Temporary
+      body.classList.add('entered');
       inScrollingSection = true;
       introSection.classList.add('hidden');
     }
@@ -173,6 +189,7 @@ const common = {
       }, 250);
       ticking = false;
     };
+    update();
 
     function requestTick() {
       if (!ticking) {

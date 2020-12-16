@@ -13,6 +13,18 @@ body {
   font-family: 'Obviously';
 	background: color('gray');
   font-variation-settings: 'wdth' 500;
+
+  &.entered {
+    .fb-logo {
+      opacity: 0;
+    }
+  }
+
+  &.can-vote {
+    .vote-prompt {
+      display: block;
+    }
+  }
 }
 
 ::-webkit-scrollbar {
@@ -37,19 +49,5 @@ img {
   max-width: $sitewrapper;
   @include media-md {
     padding: 0 $padding-md;
-  }
-}
-
-.fb-logo {
-  left: 50%;
-  top: 100px;
-  z-index: 100;
-  position: fixed;
-  transform: translateX(-40px);
-
-  svg {
-    width: 80px;
-    height: 80px;
-    fill: color('gray');
   }
 }
