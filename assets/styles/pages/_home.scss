@@ -73,7 +73,8 @@
     position: relative;
 
     li {
-      font-size: 100px;
+      line-height: 1;
+      font-size: 34px;
       font-weight: 475;
       color: transparent;
       position: relative;
@@ -81,6 +82,10 @@
       white-space: nowrap;
       transition: color 0.5s linear;
       font-variation-settings: 'wdth' 490;
+
+      @include media-md {
+        font-size: 130px;
+      }
 
       &.-active {
         .sticky-note {
@@ -274,6 +279,7 @@
           top: auto;
           left: 131px;
           bottom: 100%;
+          transform: rotate(-5deg);
         }
       }
     }
@@ -282,13 +288,13 @@
       height: 100vh;
       text-align: right;
       overflow-y: scroll;
-      padding-top: 45vh;
-      padding-bottom: 45vh;
+      padding-bottom: 50vh;
       scroll-snap-type: y mandatory;
+      padding-top: calc(50vh - 17px);
 
       li {
         right: 50%;
-        margin-right: 10px;
+        margin-right: 5px;
         position: relative;
         scroll-snap-align: center;
       }
@@ -296,18 +302,32 @@
       .sticky-note {
         right: 10vw;
       }
+
+      @include media-md {
+        padding-top: calc(50vh - 65px);
+
+        li {
+          margin-right: 10px;
+        }
+      }
     }
 
     &.right {
       left: 50%;
       text-align: left;
+      padding-left: 5px;
       position: absolute;
-      padding-left: 10px;
       pointer-events: none;
-      bottom: calc(100% - 55.5vh);
+      bottom: calc(100% - 50vh - 17px);
 
       .sticky-note {
         left: 10vw;
+      }
+
+      @include media-md {
+        bottom: calc(100% - 50vh - 65px);
+
+        padding-left: 10px;
       }
     }
   }
