@@ -42,7 +42,7 @@
   overflow: hidden;
   position: relative;
   will-change: background-color;
-  transition: background-color 1s linear;
+  transition: background-color 0.5s linear;
 
   @each $color, $value in $colors {
     &[data-color="#{$color}"] {
@@ -78,7 +78,7 @@
       position: relative;
       will-change: color;
       white-space: nowrap;
-      transition: color 1s linear;
+      transition: color 0.5s linear;
       font-variation-settings: 'wdth' 490;
 
       &.-active {
