@@ -8,10 +8,10 @@
   RewriteRule ^(.*)$ $1.html
 
   # Force SSL
-  #RewriteCond %{REQUEST_URI} !\.well-known
-  #RewriteCond %{HTTP:X-Forwarded-SSL} !on
-  #RewriteCond %{HTTP_HOST} !^starthere\.static [NC]
-  #RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  RewriteCond %{REQUEST_URI} !\.well-known
+  RewriteCond %{HTTP:X-Forwarded-SSL} !on
+  RewriteCond %{HTTP_HOST} !^fb-holiday2020\.static [NC]
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </IfModule>
 # END REWRITES
 
