@@ -119,14 +119,6 @@ const common = {
       activeIndex = Math.floor(scrollingLeft.scrollTop / itemH);
       scrollingLeftPos = scrollingLeft.scrollTop;
 
-      // remove active class
-      let oldItems = scrollingSection.querySelectorAll('li.-active');
-      if (oldItems) {
-        oldItems.forEach(function(item) {
-          item.classList.remove('-active');
-        });
-      }
-
       // Update scrolling position of right-hand side
       scrollingRight.style.transform = "translate3d(0, " + scrollingLeftPos + "px, 0)";
 
@@ -169,6 +161,14 @@ const common = {
 
     // Add active class after scrolling stops
     function updateActiveItems() {
+      // remove active class
+      let oldItems = scrollingSection.querySelectorAll('li.-active');
+      if (oldItems) {
+        oldItems.forEach(function(item) {
+          item.classList.remove('-active');
+        });
+      }
+
       scrollingLists.forEach(function(element) {
         let newItem = element.querySelector('[data-index="' + activeIndex + '"]');
         newItem.classList.add('-active');

@@ -78,10 +78,12 @@
       position: relative;
       will-change: color;
       white-space: nowrap;
-      transition: color 1s linear;
+      transition: color 0.25s linear;
       font-variation-settings: 'wdth' 490;
 
       &.-active {
+        transition: color 1s linear;
+
         .sticky-note {
           z-index: 1;
           display: block;
