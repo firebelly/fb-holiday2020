@@ -260,12 +260,20 @@
         }
       }
 
-      &.digging-deep {
+      &.letting-go {
         .sticky-note {
           top: auto;
           left: 131px;
           bottom: 100%;
           transform: rotate(10deg);
+        }
+      }
+
+      &.turning-pages {
+        .sticky-note {
+          top: auto;
+          left: 131px;
+          bottom: 100%;
         }
       }
     }
