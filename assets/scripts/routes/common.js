@@ -8,6 +8,7 @@ let $window = $(window),
     $body = $('body'),
     body = document.querySelector('body'),
     ticking = false,
+    isScrolling,
     activeIndex = 0,
     wordCount,
     itemH,
@@ -119,6 +120,14 @@ const common = {
       activeIndex = Math.floor(scrollingLeft.scrollTop / itemH);
       scrollingLeftPos = scrollingLeft.scrollTop;
 
+      // remove active class
+      let oldItems = scrollingSection.querySelectorAll('li.-active');
+      if (oldItems) {
+        oldItems.forEach(function(item) {
+          item.classList.remove('-active');
+        });
+      }
+
       // Update scrolling position of right-hand side
       scrollingRight.style.transform = "translate3d(0, " + scrollingLeftPos + "px, 0)";
 
@@ -135,10 +144,15 @@ const common = {
           scrollingSection.setAttribute('data-color', newColor);
           scrollingSection.setAttribute('data-background', newBackground);
         }
-
       }
 
       updateFontParams();
+
+      window.clearTimeout( isScrolling );
+      // Set a timeout to run after scrolling ends
+      isScrolling = setTimeout(function() {
+        updateActiveItems();
+      }, 250);
       ticking = false;
     };
 
@@ -161,29 +175,12 @@ const common = {
 
     // Add active class after scrolling stops
     function updateActiveItems() {
-      // remove active class
-      let oldItems = scrollingSection.querySelectorAll('li.-active');
-      if (oldItems) {
-        oldItems.forEach(function(item) {
-          item.classList.remove('-active');
-        });
-      }
 
       scrollingLists.forEach(function(element) {
         let newItem = element.querySelector('[data-index="' + activeIndex + '"]');
         newItem.classList.add('-active');
       });
     }
-    // Setup isScrolling variable
-    let isScrolling;
-
-    scrollingLeft.addEventListener('scroll', function ( event ) {
-      window.clearTimeout( isScrolling );
-      // Set a timeout to run after scrolling ends
-      isScrolling = setTimeout(function() {
-        updateActiveItems();
-      }, 150);
-    }, false);
   },
 
   // Update sizing vars for scrolling functionality
