@@ -15,7 +15,7 @@
   color: color('gray');
   background-color: color('black');
   &.hidden {
-    display: none;
+    animation: oragami 2s steps(3, end) forwards;
   }
 
   .fb-logo {
@@ -249,9 +249,9 @@
     position: relative;
 
     li {
-      line-height: 1;
       font-size: 34px;
       font-weight: 475;
+      line-height: 1.18;
       color: transparent;
       position: relative;
       will-change: color;

@@ -34,6 +34,7 @@ const common = {
     common.stickyNotes();
     common.scrollingText();
     common.introScreen();
+    common.partyPoppers();
 
     // Get URL Params
     function getUrlParameter(name) {
@@ -101,7 +102,9 @@ const common = {
         stickyNote.classList.toggle('-expanded');
       });
     });
+  },
 
+  partyPoppers() {
     // Party Poppers
     const min = 3;
     const max = 6;
@@ -186,7 +189,7 @@ const common = {
       // Set a timeout to run after scrolling ends
       isScrolling = setTimeout(function() {
         updateActiveItems();
-      }, 250);
+      }, 66);
       ticking = false;
     };
     update();
