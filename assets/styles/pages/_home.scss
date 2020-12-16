@@ -78,33 +78,46 @@
       position: relative;
       will-change: color;
       white-space: nowrap;
-      transition: color 0.25s linear;
+      transition: color 1s linear;
       font-variation-settings: 'wdth' 490;
 
       &.-active {
-        transition: color 1s linear;
-
         .sticky-note {
-          z-index: 1;
-          display: block;
+          pointer-events: auto;
+
+          > .-inner {
+            animation: bounceIn 1s forwards;
+          }
         }
       }
 
       .sticky-note {
         top: 100%;
-        width: 290px;
-        display: none;
-        padding: 20px;
-        font-size: 14px;
-        font-weight: 290;
-        line-height: 24px;
-        text-shadow: none;
-        text-align: center;
+        z-index: 1;
         position: absolute;
-        white-space: normal;
+        pointer-events: none;
         transform: rotate(5deg);
-        font-variation-settings: 'wdth' 490;
-        filter: drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.35));
+
+        > .-inner {
+          width: 290px;
+          padding: 20px;
+          font-size: 14px;
+          font-weight: 290;
+          line-height: 24px;
+          text-shadow: none;
+          text-align: center;
+          white-space: normal;
+          animation: bounceOut 0.5s forwards;
+          font-variation-settings: 'wdth' 490;
+          filter: drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.35));
+
+          > .icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            display: block;
+          }
+        }
 
         h4 {
           font-size: 12px;
@@ -118,15 +131,10 @@
           margin: 0 0 20px;
         }
 
-        > .icon {
-          width: 100px;
-          height: 100px;
-          margin: 0 auto;
-          display: block;
-        }
-
         &.expandable {
-          padding-bottom: 60px;
+          > .-inner {
+            padding-bottom: 60px;
+          }
 
           .burst-button {
             bottom: 0;
@@ -169,10 +177,12 @@
         }
 
         &.expandable:not(.-expanded) {
-          color: color('white');
-          background-color: color('black');
-          .expanded-content {
-            display: none;
+          > .-inner {
+            color: color('white');
+            background-color: color('black');
+            .expanded-content {
+              display: none;
+            }
           }
         }
       }
@@ -247,7 +257,6 @@
 
       .sticky-note {
         left: 25vw;
-        pointer-events: auto;
       }
     }
   }
