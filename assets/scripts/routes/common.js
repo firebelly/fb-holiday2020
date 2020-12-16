@@ -85,6 +85,24 @@ const common = {
         stickyNote.classList.toggle('-expanded');
       });
     });
+
+    // Party Poppers
+    const min = 3;
+    const max = 6;
+    let partyPoppers = document.querySelectorAll('.party-popper');
+    partyPoppers.forEach(function(partyPopper) {
+      let icons = [];
+      let iconData = partyPopper.querySelectorAll('[data-icon]');
+
+      iconData.forEach(function(icon, index) {
+        let count = Math.floor(Math.random() * max) + min;
+        icons.push(icon.getAttribute('data-icon'));
+
+        for (var i = count - 1; i >= 0; i--) {
+          partyPopper.innerHTML += '<svg class="icon icon-' + icons[index] + '" aria-hidden="true" role="presentation"><use xlink:href="#icon-' + icons[index] + '"/></svg>';
+        }
+      });
+    });
   },
 
   // Scrolling Functionality

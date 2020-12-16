@@ -54,3 +54,8 @@
     transform: scale3d(0.3, 0.3, 0.3);
   }
 }
+
+@keyframes shoot {
+  0% { transform: translate(36vw, 35vh); }
+}
+@keyframes fade { to { opacity: 0 } }
