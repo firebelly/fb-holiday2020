@@ -4,22 +4,23 @@ import { gsap } from "gsap";
 
 // Shared vars
 let $window = $(window),
-    $body = $('body'),
-    scrollTop,
-    ticking = false,
-    lastScrollTop = 0,
-    scrollDelta = 0,
-    upScroll = false,
-    downScroll = false,
-    activeIndex = 0,
-    inScrollingSection = false,
-    scrollingSectionHeight,
     $document = $(document),
-    transitionElements = [],
-    resizeTimer,
+    $body = $('body'),
+    body = document.querySelector('body'),
+    ticking = false,
+    activeIndex = 0,
     wordCount,
+    itemH,
+    itemHalfHeight,
+    halfway,
     scrollingSection,
-    scrollingText;
+    scrollingLeft,
+    scrollingLeftPos,
+    scrollingRight,
+    scrollingLists,
+    inScrollingSection = false,
+    transitionElements = [],
+    resizeTimer;
 
 const common = {
   // JavaScript to be fired on all pages
@@ -27,92 +28,10 @@ const common = {
     // Transition elements to enable/disable on resize
     transitionElements = [];
 
-    // Sticky NOtes
-    let expandableStickyNotes = document.querySelectorAll('.sticky-note.expandable');
-
-    expandableStickyNotes.forEach(function(stickyNote) {
-      let expandButton = stickyNote.querySelector('.expand-sticky');
-      expandButton.addEventListener('click', function() {
-        stickyNote.classList.toggle('-expanded');
-      });
-    });
-
-    // Scrolling Functionality
-    scrollingSection = document.getElementById('scrolling-section');
-    const scrollingLeft = scrollingSection.querySelector('.left');
-    const scrollingRight = scrollingSection.querySelector('.right');
-    scrollingText = scrollingSection.querySelectorAll('ul');
-    scrollingSectionHeight = scrollingText[0].offsetHeight;
-
-    const items = scrollingSection.querySelectorAll('li');
-    // recalc these on resize!
-    let halfway = window.innerHeight / 2;
-    let itemHalfHeight = items[0].offsetHeight / 2;
-
-    wordCount = scrollingSection.querySelectorAll('li').length / 2;
-
-    var lastScrollY = 0;
-    var ticking = false;
-
-    var update = function() {
-      // remove active class
-      $('#scrolling-section li.-active').removeClass('-active');
-
-      // Update scrolling position of right-hand side
-      $("#scrolling-section .right").css({
-        "transform": "translate3d(0, " + $('#scrolling-section .left').scrollTop() + "px, 0)"
-      });
-
-      // Adjust the font-settings for each item based on distance from center
-
-      ticking = false;
-    };
-
-    var requestTick = function() {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
-    };
-
-    var onScroll = function() {
-      lastScrollY = scrollingLeft.scrollY;
-      requestTick();
-    };
-
-    // Add Active Classes
-    scrollingLeft.addEventListener('scroll', onScroll);
-
-    // Setup isScrolling variable
-    let isScrolling;
-
-    // Updating active classes after scrolling stops
-    scrollingLeft.addEventListener('scroll', function ( event ) {
-
-      window.clearTimeout( isScrolling );
-
-      // Set a timeout to run after scrolling ends
-      isScrolling = setTimeout(function() {
-        // Run the callback
-        common.updateScrolling();
-      }, 250);
-    }, false);
-
     // Init Functions
-    _initIntroScreen();
-
-    function _initIntroScreen() {
-      const introSection = document.getElementById('intro-section');
-      const enterButton = document.getElementById('enter');
-
-      enterButton.addEventListener('click', enterSite);
-
-      function enterSite() {
-        // Temporary
-        inScrollingSection = true;
-        introSection.classList.add('hidden');
-      }
-    }
+    common.stickyNotes();
+    common.scrollingText();
+    common.introScreen();
 
     // Disabling transitions on certain elements on resize
     function _disableTransitions() {
@@ -130,6 +49,7 @@ const common = {
     function _resize() {
       // Disable transitions when resizing
       _disableTransitions();
+      common.setScrollingSizes();
 
       // Functions to run on resize end
       clearTimeout(resizeTimer);
@@ -139,50 +59,138 @@ const common = {
       }, 250);
     }
     $(window).resize(_resize);
-
   },
 
-  toggleListener(listener, add) {
-    if (add) {
-      scrollingSection.addEventListener('wheel', listener);
-    } else {
-      scrollingSection.removeEventListener('wheel', listener);
+  introScreen() {
+    const introSection = document.getElementById('intro-section');
+    const enterButton = document.getElementById('enter');
+
+    enterButton.addEventListener('click', enterSite);
+
+    function enterSite() {
+      // Temporary
+      inScrollingSection = true;
+      introSection.classList.add('hidden');
     }
   },
 
-  updateScrolling() {
-    let sectionH = $('#scrolling-section .left li').first().outerHeight();
-    let activeIndex = Math.floor($("#scrolling-section .left").scrollTop() / sectionH);
+  stickyNotes() {
+    // Sticky NOtes
+    const expandableStickyNotes = document.querySelectorAll('.sticky-note.expandable');
 
+    expandableStickyNotes.forEach(function(stickyNote) {
+      let expandButton = stickyNote.querySelector('.expand-sticky');
+      expandButton.addEventListener('click', function() {
+        stickyNote.classList.toggle('-expanded');
+      });
+    });
+  },
+
+  // Scrolling Functionality
+  scrollingText() {
+    // Set some vars
     scrollingSection = document.getElementById('scrolling-section');
+    scrollingLeft = scrollingSection.querySelector('.left');
+    scrollingRight = scrollingSection.querySelector('.right');
+    scrollingLists = scrollingSection.querySelectorAll('ul');
+    wordCount = scrollingSection.querySelectorAll('li').length / 2;
     const items = scrollingSection.querySelectorAll('li');
-    let halfway = window.innerHeight / 2;
-    let itemHalfHeight = items[0].offsetHeight / 2;
 
-    items.forEach(function(item) {
-      let rect = item.getBoundingClientRect();
-      let win = item.ownerDocument.defaultView
-      let offset = Math.abs(Math.floor(rect.top + win.pageYOffset - halfway + itemHalfHeight));
+    // Cache used sizes
+    common.setScrollingSizes();
 
-      if (offset < halfway + itemHalfHeight) {
-        let fontWidth = offset + 320;
-        item.style.fontVariationSettings = '"wdth" ' + fontWidth;
-        item.style.fontWeight = offset + 475;
+    // Adjust the font-settings for each item based on distance from center
+    function updateFontParams() {
+      items.forEach(function(item) {
+        let rect = item.getBoundingClientRect();
+        let win = item.ownerDocument.defaultView
+        let offset = Math.abs(Math.floor(rect.top + win.pageYOffset - halfway + itemHalfHeight));
+
+        if (offset < halfway + itemHalfHeight) {
+          let fontWidth = offset + 320;
+          item.style.fontVariationSettings = '"wdth" ' + fontWidth;
+          item.style.fontWeight = offset + 475;
+        }
+      });
+    }
+    updateFontParams();
+
+    function update() {
+      activeIndex = Math.floor(scrollingLeft.scrollTop / itemH);
+      scrollingLeftPos = scrollingLeft.scrollTop;
+
+      // remove active class
+      let oldItems = scrollingSection.querySelectorAll('li.-active');
+      if (oldItems) {
+        oldItems.forEach(function(item) {
+          item.classList.remove('-active');
+        });
       }
-    });
 
-    scrollingText.forEach(function(element) {
-      let newItem = element.querySelector('[data-index="' + activeIndex + '"]');
-      newItem.classList.add('-active');
+      // Update scrolling position of right-hand side
+      scrollingRight.style.transform = "translate3d(0, " + scrollingLeftPos + "px, 0)";
 
-      if (newItem.hasAttribute('data-color')) {
-        let color = newItem.getAttribute('data-color');
-        let background = newItem.getAttribute('data-background');
+      // Change Background and text colors
+      let activeItem = scrollingSection.querySelector('[data-index="' + activeIndex + '"]');
+      if (activeItem.hasAttribute('data-color')) {
+        let newColor = activeItem.getAttribute('data-color');
+        let oldColor = body.getAttribute('data-color');
+        let newBackground = activeItem.getAttribute('data-background');
+        let oldBackground = body.getAttribute('data-background');
 
-        scrollingSection.setAttribute('data-color', color);
-        scrollingSection.setAttribute('data-background', background);
+        // Skip if it's the same as current colors
+        if (newColor !== oldColor && newBackground !== oldBackground) {
+          scrollingSection.setAttribute('data-color', newColor);
+          scrollingSection.setAttribute('data-background', newBackground);
+        }
+
       }
-    });
+
+      updateFontParams();
+      ticking = false;
+    };
+
+    function requestTick() {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    function onScroll() {
+      if (!inScrollingSection) {
+        return;
+      }
+      requestTick();
+    };
+
+    // Run the stuff on scroll!
+    scrollingLeft.addEventListener('scroll', onScroll);
+
+    // Add active class after scrolling stops
+    function updateActiveItems() {
+      scrollingLists.forEach(function(element) {
+        let newItem = element.querySelector('[data-index="' + activeIndex + '"]');
+        newItem.classList.add('-active');
+      });
+    }
+    // Setup isScrolling variable
+    let isScrolling;
+
+    scrollingLeft.addEventListener('scroll', function ( event ) {
+      window.clearTimeout( isScrolling );
+      // Set a timeout to run after scrolling ends
+      isScrolling = setTimeout(function() {
+        updateActiveItems();
+      }, 150);
+    }, false);
+  },
+
+  // Update sizing vars for scrolling functionality
+  setScrollingSizes() {
+    itemH = scrollingLeft.querySelector('li').offsetHeight;
+    itemHalfHeight = itemH / 2;
+    halfway = window.innerHeight / 2;
   },
 
   // Todo: eyes track mouse

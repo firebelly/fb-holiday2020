@@ -42,7 +42,7 @@
   overflow: hidden;
   position: relative;
   will-change: background-color;
-  transition: background-color 0.25s ease-out;
+  transition: background-color 1s linear;
 
   @each $color, $value in $colors {
     &[data-color="#{$color}"] {
@@ -70,24 +70,18 @@
   ul {
     @extend .semantic-list;
     position: relative;
-    // transition: transform 0.5s ease-out;
 
     li {
       font-size: 10vh;
       font-weight: 475;
       color: transparent;
       position: relative;
+      will-change: color;
       white-space: nowrap;
-      transition: color 0.5s ease-out;
+      transition: color 1s linear;
       font-variation-settings: 'wdth' 490;
-      will-change: font-variation-settings, font-weight;
-      transition: font-variation-settings 0.2s linear, font-weight 0.2s linear;
 
       &.-active {
-        // color: color('black');
-        // font-weight: 475;
-        // font-variation-settings: 'wdth' 320;
-
         .sticky-note {
           z-index: 1;
           display: block;
