@@ -55,12 +55,61 @@
   }
 }
 
+@keyframes bounceOutDown {
+  20% {
+    transform: translate3d(0, 10px, 0) scaleY(0.985);
+  }
+
+  40%,
+  45% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0) scaleY(0.9);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 2000px, 0) scaleY(3);
+  }
+}
+
+@keyframes bounceInUp {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  from {
+    opacity: 0;
+    transform: translate3d(0, 3000px, 0) scaleY(5);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0) scaleY(0.9);
+  }
+
+  75% {
+    transform: translate3d(0, 10px, 0) scaleY(0.95);
+  }
+
+  90% {
+    transform: translate3d(0, -5px, 0) scaleY(0.985);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @keyframes shoot {
   0% { transform: translate(36vw, 35vh); }
 }
 @keyframes fade { to { opacity: 0 } }
 
-@keyframes oragami {
+@keyframes origamiOne {
   0% {
     clip-path: polygon(50% 0%, 100% 0, 100% 43%, 100% 100%, 68% 100%, 32% 100%, 0 100%, 0% 43%, 0 0);
   }
@@ -74,8 +123,25 @@
     clip-path: polygon(54% 11%, 69% 14%, 58% 26%, 52% 48%, 61% 74%, 30% 82%, 32% 55%, 29% 18%, 51% 0);
   }
   100% {
-    display: none;
     clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  }
+}
+
+@keyframes origamiTwo {
+  0% {
+    clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  }
+  25% {
+    clip-path: polygon(55% 17%, 63% 39%, 83% 46%, 71% 60%, 64% 92%, 34% 76%, 37% 63%, 21% 59%, 38% 39%);
+  }
+  50% {
+    clip-path: polygon(55% 4%, 78% 24%, 100% 54%, 96% 81%, 58% 93%, 34% 76%, 5% 81%, 21% 59%, 28% 24%);
+  }
+  75% {
+    clip-path: polygon(73% 1%, 78% 24%, 100% 54%, 96% 81%, 59% 83%, 32% 100%, 5% 81%, 0% 43%, 19% 5%);
+  }
+  100% {
+    clip-path: polygon(50% 0%, 100% 0, 100% 43%, 100% 100%, 68% 100%, 32% 100%, 0 100%, 0% 43%, 0 0);
   }
 }
 

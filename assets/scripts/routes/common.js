@@ -6,6 +6,7 @@ let $window = $(window),
     $document = $(document),
     $body = $('body'),
     body = document.querySelector('body'),
+    isTouchDevice,
     ticking = false,
     canVote = false,
     isScrolling,
@@ -29,23 +30,20 @@ const common = {
     // Transition elements to enable/disable on resize
     transitionElements = [];
 
+    // Is it a touch device?
+    isTouchDevice = common.isTouchDevice();
+    $body.toggleClass('touch-device', isTouchDevice);
+
     // Init Functions
     common.stickyNotes();
     common.scrollingText();
     common.introScreen();
     common.partyPoppers();
+    common.voting();
     common.customCursor();
 
-    // Get URL Params
-    function getUrlParameter(name) {
-      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-      var results = regex.exec(location.search);
-      return results === null ? false : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    };
-
     // Check if visitor can vote
-    canVote = getUrlParameter('p');
+    canVote = common.getUrlParameter('c');
     if (canVote !== false) {
       body.classList.add('can-vote');
     }
@@ -127,6 +125,52 @@ const common = {
     });
   },
 
+  voting() {
+    const votingActivate = document.querySelector('.activate-vote');
+    const votingSection = document.getElementById('voting-section');
+    const userName = document.getElementById('user-name');
+    let name = common.getUrlParameter('n');
+
+    if (name !== false) {
+      name = atob(name);
+      userName.innerHTML = ' ' + name + ',';
+    }
+
+    votingActivate.addEventListener('click', function() {
+      votingSection.style.display = 'block';
+      body.classList.add('show-voting-section');
+    });
+
+    document.addEventListener('submit', function (event) {
+      event.preventDefault();
+      showThankYou();
+      // fetch('vote.php', {
+      //   method: 'POST',
+      //   body: new FormData(event.target),
+      // }).then(function (response) {
+      //   if (response.ok) {
+      //     return response.json();
+      //   }
+      //   return Promise.reject(response);
+      // }).then(function (data) {
+      //   if (data.success) {
+      //     // everything went great!
+      //     showThankYou();
+      //     alert(`${data.message} Thanks, ${data.name}!`);
+      //   } else {
+      //     // oh no!
+      //     alert(`Oops! ${data.message}`);
+      //   }
+      // }).catch(function (error) {
+      //   console.log(error);
+      // });
+    });
+
+    function showThankYou() {
+      votingSection.classList.add('show-thank-you');
+    }
+  },
+
   // Scrolling Functionality
   scrollingText() {
     // Set some vars
@@ -149,12 +193,15 @@ const common = {
 
         if (offset < halfway + itemHalfHeight) {
           let fontWidth = offset + 320;
+          let fontWeight = (offset * 0.8) + 475;
+          if (fontWeight > 800) {
+            fontWeight = 800;
+          }
           item.style.fontVariationSettings = '"wdth" ' + fontWidth;
-          item.style.fontWeight = offset + 475;
+          item.style.fontWeight = fontWeight;
         }
       });
     }
-    updateFontParams();
 
     function update() {
       updateActiveItems();
@@ -246,9 +293,37 @@ const common = {
     halfway = window.innerHeight / 2;
   },
 
+  isTouchDevice() {
+    var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+    var mq = function(query) {
+        return window.matchMedia(query).matches;
+    }
+
+    if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+        return true;
+    }
+
+    // include the 'heartz' as a way to have a non matching MQ to help terminate the join
+    // https://git.io/vznFH
+    var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+    return mq(query);
+  },
+
+  // Get URL Params
+  getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? false : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  },
+
   customCursor() {
     let follower, init, mouseX, mouseY, positionElement, timer;
     follower = document.getElementById('cursor');
+
+    if (isTouchDevice) {
+      return;
+    }
 
     mouseX = event => {
       return event.clientX;

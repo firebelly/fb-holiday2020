@@ -109,7 +109,7 @@
                 </button>
               </div>
 
-              <div class="party-popper fill-purple">
+              <div class="party-popper fill-yellow">
                 <div data-icon="heart"></div>
                 <div data-icon="heart"></div>
                 <div data-icon="heart"></div>
@@ -190,7 +190,39 @@
       </div>
 
       <div id="voting-section" class="voting-section">
+        <form action="" class="ballot">
+          <div class="fb-logo"><svg aria-hidden="true" role="presentation"><use xlink:href="#fb-logo"/></svg></div>
+          <h3>Choose The Most Deserving Organization</h3>
+          <p>They will all get some dough, but your vote will help determine how much we’ll donate to each group, supporting the vitally important work they’ve done this year and will continue to do</p>
 
+          <input type="hidden" name="c" value="<?= $c ?>">
+          <input type="hidden" name="n" value="<?= $n ?>">
+          <div class="input-wrap">
+            <input type="radio" name="choice" value="FairFight" id="fair-fight">
+            <span></span>
+            <label for="fair-fight">Fair Fight</label>
+          </div>
+          <div class="input-wrap">
+            <input type="radio" name="choice" value="CDC" id="cdc">
+            <span></span>
+            <label for="cdc"><a href="https://give4cdcf.org/" target="_blank" rel="noopener">CDC Foundation</a></label>
+          </div>
+          <div class="input-wrap">
+            <input type="radio" name="choice" value="CommunityKitchen" id="community-kitchen">
+            <span></span>
+            <label for="community-kitchen"><a href="https://www.communitykitchenchicago.org/" target="_blank" rel="noopener">Community Kitchen</a></label>
+          </div>
+          <button>Vote!</button>
+        </form>
+
+        <div id="thank-you" class="thank-you">
+          <div class="-inner">
+            <div class="fb-logo"><a href="https://www.firebellydesign.com"><svg aria-hidden="true" role="presentation"><use xlink:href="#fb-logo"/></svg></a></div>
+
+            <p>Thank you<span id="user-name"></span> for making our year.<br> Year after year after year.</p>
+            <p class="small"><a href="https://www.firebellydesign.com/ideas/with-joy-meet-chantel">Hope you didn’t miss our big announcement!</a></p>
+          </div>
+        </div>
       </div>
 
     </main>
