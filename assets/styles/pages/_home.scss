@@ -273,7 +273,7 @@
       font-variation-settings: 'wdth' 490;
 
       @include media-md {
-        font-size: 130px;
+        font-size: 80px;
       }
 
       &.-active {
@@ -391,10 +391,10 @@
       }
 
       @include media-md {
-        padding-top: calc(50vh - 65px);
+        padding-top: calc(50vh - 40px);
 
         > .scrolling-inner {
-          padding-bottom: calc(50vh - 65px);
+          padding-bottom: calc(50vh - 40px);
         }
 
         li {
@@ -417,7 +417,7 @@
 
       @include media-md {
         padding-left: 10px;
-        bottom: calc(100% - 50vh - 65px);
+        bottom: calc(100% - 50vh - 40px);
       }
     }
   }

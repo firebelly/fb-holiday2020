@@ -101,8 +101,7 @@ const common = {
     const expandableStickyNotes = document.querySelectorAll('.sticky-note.expandable');
 
     expandableStickyNotes.forEach(function(stickyNote) {
-      let expandButton = stickyNote.querySelector('.expand-sticky');
-      expandButton.addEventListener('click', function() {
+      stickyNote.addEventListener('click', function() {
         stickyNote.classList.toggle('-expanded');
       });
     });
