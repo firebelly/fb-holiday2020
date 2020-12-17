@@ -79,11 +79,14 @@ const common = {
   introScreen() {
     const introSection = document.getElementById('intro-section');
     const enterButton = document.getElementById('enter');
+    const cursor = document.getElementById('cursor');
 
     enterButton.addEventListener('click', enterSite);
 
     function enterSite() {
-      // Temporary
+      cursor.classList.remove('button-cursor');
+      cursor.innerHTML = '<svg class="hand-cursor" aria-hidden="true" role="presentation"><use xlink:href="#hand-cursor"/></svg>';
+
       body.classList.add('entered');
       inScrollingSection = true;
       introSection.classList.add('hidden');
@@ -227,14 +230,8 @@ const common = {
       }
 
       updateFontParams();
-
-      // window.clearTimeout( isScrolling );
-      // // Set a timeout to run after scrolling ends
-      // isScrolling = setTimeout(function() {
-      // }, 66);
       ticking = false;
     };
-    update();
 
     function requestTick() {
       if (!ticking) {
@@ -244,9 +241,6 @@ const common = {
     };
 
     function onScroll() {
-      if (!inScrollingSection) {
-        return;
-      }
       requestTick();
     };
 
@@ -275,6 +269,8 @@ const common = {
 
       // remove active class
       let oldItems = scrollingSection.querySelectorAll('li.-active');
+      let oldIndex = oldItems[0].getAttribute('data-index');
+
       if (oldItems.length) {
         oldItems.forEach(function(item) {
           item.classList.remove('-active');
@@ -320,8 +316,8 @@ const common = {
   },
 
   customCursor() {
-    let follower, init, mouseX, mouseY, positionElement, timer;
-    follower = document.getElementById('cursor');
+    let cursor, init, mouseX, mouseY, positionElement, timer;
+    cursor = document.getElementById('cursor');
 
     if (isTouchDevice) {
       return;
@@ -344,25 +340,24 @@ const common = {
       let hoveredEl = document.elementFromPoint(mouse.x, mouse.y),
           $hoveredEl = $(hoveredEl);
 
-
       if ($hoveredEl.is('.js-button-cursor') || $hoveredEl.parents('.js-button-cursor').length) {
-        if (!follower.matches('.button-cursor')) {
-          follower.classList.add('button-cursor');
-          follower.innerHTML = '<svg class="eyes-gleaming" aria-hidden="true" role="presentation"><use xlink:href="#icon-eyes-gleaming"/></svg><svg class="eyes-open" aria-hidden="true" role="presentation"><use xlink:href="#icon-eyes-open"/></svg>';
+        if (!cursor.matches('.button-cursor')) {
+          cursor.classList.add('button-cursor');
+          cursor.innerHTML = '<svg class="eyes-gleaming" aria-hidden="true" role="presentation"><use xlink:href="#icon-eyes-gleaming"/></svg><svg class="eyes-open" aria-hidden="true" role="presentation"><use xlink:href="#icon-eyes-open"/></svg>';
         }
       } else {
-        follower.classList.remove('button-cursor');
-        follower.innerHTML = '<svg class="hand-cursor" aria-hidden="true" role="presentation"><use xlink:href="#hand-cursor"/></svg>';
+        cursor.classList.remove('button-cursor');
+        cursor.innerHTML = '<svg class="hand-cursor" aria-hidden="true" role="presentation"><use xlink:href="#hand-cursor"/></svg>';
       }
 
       if (mouse.y > halfway) {
-        follower.classList.add('reverse');
+        cursor.classList.add('reverse');
       } else {
-        follower.classList.remove('reverse');
+        cursor.classList.remove('reverse');
       }
 
-      follower.style.top = mouse.y + 'px';
-      return follower.style.left = mouse.x + 'px';
+      cursor.style.top = mouse.y + 'px';
+      return cursor.style.left = mouse.x + 'px';
     };
 
     timer = false;

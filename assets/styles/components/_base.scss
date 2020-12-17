@@ -16,6 +16,7 @@ body {
   color: color('black');
   font-family: 'Obviously';
 	background: color('gray');
+  overscroll-behavior: none;
   font-variation-settings: 'wdth' 490;
 
   &.touch-device {

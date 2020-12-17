@@ -361,6 +361,7 @@
       height: 100vh;
       text-align: right;
       overflow-y: scroll;
+      overscroll-behavior: none;
       scroll-snap-type: y mandatory;
       padding-top: calc(50vh - 17px);
 
