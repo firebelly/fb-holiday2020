@@ -84,15 +84,18 @@ const common = {
     enterButton.addEventListener('click', enterSite);
 
     function enterSite() {
+      cursor.innerHTML = '';
       cursor.classList.remove('button-cursor');
-      cursor.innerHTML = '<svg class="hand-cursor" aria-hidden="true" role="presentation"><use xlink:href="#hand-cursor"/></svg>';
+      cursor.classList.add('-hide');
 
       body.classList.add('entered');
       inScrollingSection = true;
       introSection.classList.add('hidden');
       setTimeout(function() {
+        cursor.innerHTML = '<svg class="hand-cursor" aria-hidden="true" role="presentation"><use xlink:href="#hand-cursor"/></svg><svg class="arrow-cursor" aria-hidden="true" role="presentation"><use xlink:href="#icon-arrow"/></svg>';
+        cursor.classList.remove('-hide');
         introSection.remove();
-      }, 1100);
+      }, 1000);
     }
   },
 
@@ -141,6 +144,7 @@ const common = {
     votingActivate.addEventListener('click', function() {
       votingSection.style.display = 'block';
       body.classList.add('show-voting-section');
+      body.classList.remove('entered');
     });
 
     document.addEventListener('submit', function (event) {
@@ -315,7 +319,7 @@ const common = {
   },
 
   customCursor() {
-    let cursor, init, mouseX, mouseY, positionElement, timer;
+    let cursor, init, mouseX, mouseY, positionElement, setMouseDown, setMouseUp, timer;
     cursor = document.getElementById('cursor');
 
     if (isTouchDevice) {
@@ -346,10 +350,10 @@ const common = {
         }
       } else {
         cursor.classList.remove('button-cursor');
-        cursor.innerHTML = '<svg class="hand-cursor" aria-hidden="true" role="presentation"><use xlink:href="#hand-cursor"/></svg>';
+        cursor.innerHTML = '<svg class="hand-cursor" aria-hidden="true" role="presentation"><use xlink:href="#hand-cursor"/></svg><svg class="arrow-cursor" aria-hidden="true" role="presentation"><use xlink:href="#icon-arrow"/></svg>';
       }
 
-      if (mouse.y > halfway) {
+      if (mouse.y < halfway) {
         cursor.classList.add('reverse');
       } else {
         cursor.classList.remove('reverse');
@@ -358,6 +362,14 @@ const common = {
       cursor.style.top = mouse.y + 'px';
       return cursor.style.left = mouse.x + 'px';
     };
+
+    setMouseDown = event => {
+      body.classList.add('-mousedown');
+    };
+
+    setMouseUp = event => {
+      body.classList.remove('-mousedown');
+    }
 
     timer = false;
 
@@ -368,6 +380,23 @@ const common = {
         return positionElement(_event);
       }, 1);
     };
+
+    window.onmousedown = init = event => {
+      var _event;
+      _event = event;
+      return timer = setTimeout(() => {
+        return setMouseDown(_event);
+      }, 1);
+    };
+
+    window.onmouseup = init = event => {
+      var _event;
+      _event = event;
+      return timer = setTimeout(() => {
+        return setMouseUp(_event);
+      }, 1);
+    };
+
   },
 
   // Todo: eyes track mouse

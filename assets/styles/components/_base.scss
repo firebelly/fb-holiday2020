@@ -25,6 +25,21 @@ body {
     }
   }
 
+  &.entered {
+    #cursor {
+      .hand-cursor {
+        display: none;
+      }
+      .arrow-cursor {
+        display: block;
+      }
+
+      &.reverse:not(.button-cursor) {
+        transform: translate(-50%, -50%) rotate(-180deg);
+      }
+    }
+  }
+
   &.can-vote {
     .vote-prompt {
       display: block;
@@ -35,20 +50,25 @@ body {
 #cursor {
   top: 50%;
   left: 50%;
+  opacity: 1;
   z-index: 500;
   position: absolute;
   pointer-events: none;
   mix-blend-mode: exclusion;
   transform: translate(-50%, -50%);
-  transition: transform 0.2s ease-out;
+  transition: transform 0.2s ease-out, opacity 0.5s ease-out;
   svg {
     width: 160px;
     height: 160px;
     fill: color('white');
   }
 
-  &.reverse:not(.button-cursor) {
-    transform: translate(-50%, -50%) rotate(-180deg);
+  &.-hide {
+    opacity: 0;
+  }
+
+  .arrow-cursor {
+    display: none;
   }
 
   &.button-cursor {
@@ -58,13 +78,37 @@ body {
       width: 100px;
       height: 100px;
       position: absolute;
+      transition: 0.1s ease-out;
       transform: translate(-50%, -50%);
 
       &.eyes-open {
-        animation: blinkOpen 2s forwards infinite;
+        display: block;
       }
       &.eyes-gleaming {
-        animation: blinkClosed 2s forwards infinite;
+        display: none;
+      }
+    }
+  }
+}
+// Mouse Down/Up Styles
+body.-mousedown {
+  #cursor {
+    svg {
+      width: 150px;
+      height: 150px;
+    }
+
+    &.button-cursor {
+      svg {
+        width: 90px;
+        height: 90px;
+
+        &.eyes-open {
+          display: none;
+        }
+        &.eyes-gleaming {
+          display: block;
+        }
       }
     }
   }

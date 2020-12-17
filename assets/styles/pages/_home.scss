@@ -57,7 +57,9 @@
 
     &:hover,
     &:focus {
-      animation: spin 3s infinite linear;
+      .burst {
+        animation: spin 10s infinite linear;
+      }
     }
   }
 
