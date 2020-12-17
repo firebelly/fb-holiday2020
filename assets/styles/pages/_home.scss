@@ -96,7 +96,7 @@
   overflow: hidden;
   position: relative;
   will-change: background-color;
-  transition: background-color 0.5s linear;
+  transition: background-color 1.2s linear;
 
   @each $color, $value in $colors {
     &[data-color="#{$color}"] {
