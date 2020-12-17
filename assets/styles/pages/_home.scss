@@ -86,22 +86,24 @@
     &[data-color="#{$color}"] {
       li {
         &:not(.-active) {
-          text-shadow:
-          -1px -1px 0 $value,
-           1px -1px 0 $value,
-           -1px 1px 0 $value,
-            1px 1px 0 $value;
+          // text-shadow:
+          // -1px -1px 0 $value,
+          //  1px -1px 0 $value,
+          //  -1px 1px 0 $value,
+          //   1px 1px 0 $value;
         }
+        color: $value;
+        opacity: 0.35;
         &.-active {
-          color: $value;
+          opacity: 1;
         }
       }
     }
     &[data-background="#{$color}"] {
       background-color: $value;
-      li:not(.-active) {
-        color: $value;
-      }
+      // li:not(.-active) {
+      //   color: $value;
+      // }
     }
   }
 
@@ -194,7 +196,7 @@
           display: block;
 
           .icon {
-            animation: shoot 1s ease-out forwards;
+            animation: shoot 1.5s ease-out forwards;
             animation-name: shoot, fade;
           }
         }

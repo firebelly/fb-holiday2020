@@ -208,6 +208,11 @@ const common = {
 
     // Navigation
     scrollingSection.addEventListener('click', function(event) {
+      // return if clicking on sticky note
+      let $target = $(event.target);
+      if ($target.is('.sticky-not') || $target.parents('.sticky-note').length) {
+        return;
+      }
       if (event.clientY < halfway && activeIndex !== 0) {
         scrollingLeft.scrollTop -= itemH;
       } else if (event.clientY > halfway && activeIndex !== wordCount - 1) {
