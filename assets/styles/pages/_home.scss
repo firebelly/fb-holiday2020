@@ -40,9 +40,9 @@
 
     p {
       margin: 0;
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 500;
-      line-height: 40px;
+      line-height: 38px;
     }
 
     cite {
@@ -260,12 +260,12 @@
     @extend .semantic-list;
     position: relative;
     scroll-behavior: smooth;
-    // pointer-events: none;
 
     li {
       font-size: 34px;
       font-weight: 475;
       line-height: 1.25;
+      user-select: none;
       color: transparent;
       position: relative;
       will-change: color;
@@ -451,9 +451,8 @@
   bottom: 0;
   z-index: 200;
   display: none;
-  overflow: hidden;
+  overflow: auto;
   position: absolute;
-  padding: 50px 50px 150px;
   background-color: color('black');
   &.show-thank-you {
     form {
@@ -469,6 +468,16 @@
     }
   }
 
+  > .-inner {
+    padding: 25px;
+    overflow: hidden;
+    position: relative;
+
+    @include media-md {
+      padding: 50px;
+    }
+  }
+
   .fb-logo {
     svg {
       width: 80px;
@@ -477,11 +486,14 @@
   }
 
   form {
-    padding: 50px;
+    padding: 25px;
     margin: 0 auto;
     max-width: 480px;
     text-align: center;
     background-color: color('gray');
+    @include media-md {
+      padding: 50px;
+    }
 
     .fb-logo svg {
       fill: color('black');
@@ -489,11 +501,16 @@
 
     h3 {
       margin: 20px 0;
-      font-size: 40px;
+      font-size: 28px;
       font-weight: 575;
-      line-height: 50px;
+      line-height: 38px;
       color: color('red');
       font-variation-settings: 'wdth' 490;
+
+      @include media-md {
+        font-size: 40px;
+        line-height: 50px;
+      }
     }
 
     p {
@@ -568,8 +585,11 @@
     height: 100%;
     position: absolute;
     text-align: center;
-    padding: 100px 50px 50px;
+    padding: 50px 25px 25px;
     transform: translate3d(0, 100%, 0);
+    @include media-md {
+      padding: 100px 50px 50px;
+    }
 
     .fb-logo {
       opacity: 0;
@@ -581,12 +601,17 @@
     }
 
     p:not(.small) {
-      font-size: 40px;
+      font-size: 28px;
       font-weight: 575;
-      line-height: 50px;
-      margin: 170px 0 40px;
+      line-height: 38px;
+      margin: 50px 0 40px;
       color: color('yellow');
       font-variation-settings: 'wdth' 490;
+      @include media-md {
+        margin-top: 170px;
+        font-size: 40px;
+        line-height: 50px;
+      }
 
       #user-name {
         text-transform: capitalize;

@@ -174,6 +174,7 @@ const common = {
 
     function showThankYou() {
       votingSection.classList.add('show-thank-you');
+      votingSection.scrollTop = 0;
     }
   },
 
