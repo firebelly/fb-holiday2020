@@ -1,7 +1,7 @@
 // Home page
 
 .intro-section {
-  // display: none;
+  // display: none!important;
   top: 0;
   left: 0;
   right: 0;
@@ -361,18 +361,21 @@
       height: 100vh;
       text-align: right;
       overflow-y: scroll;
-      padding-bottom: 50vh;
       scroll-snap-type: y mandatory;
       padding-top: calc(50vh - 17px);
+
+      // Hide the scrollbar
       -ms-overflow-style: none;
       scrollbar-color: transparent transparent; /*just hides the scrollbar for firefox */
-
       &::-webkit-scrollbar {
         display: none;
       }
       &::-moz-scrollbar {
         display: none;
+      }
 
+      > .scrolling-inner {
+        padding-bottom: calc(50vh - 17px);
       }
 
       li {
@@ -388,6 +391,10 @@
 
       @include media-md {
         padding-top: calc(50vh - 65px);
+
+        > .scrolling-inner {
+          padding-bottom: calc(50vh - 65px);
+        }
 
         li {
           margin-right: 10px;
@@ -408,9 +415,8 @@
       }
 
       @include media-md {
-        bottom: calc(100% - 50vh - 65px);
-
         padding-left: 10px;
+        bottom: calc(100% - 50vh - 65px);
       }
     }
   }

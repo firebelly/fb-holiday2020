@@ -252,6 +252,8 @@ const common = {
 
     // Run the stuff on scroll!
     scrollingLeft.addEventListener('scroll', onScroll);
+    // Trigger a scroll to ensure initial alignment
+    scrollingLeft.scrollTo(0, 50);
 
     // Navigation
     scrollingSection.addEventListener('click', function(event) {
