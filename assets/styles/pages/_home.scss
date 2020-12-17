@@ -15,7 +15,7 @@
   color: color('gray');
   background-color: color('black');
   &.hidden {
-    animation: oragami 2s steps(3, end) forwards;
+    animation: oragami 1s steps(3, end) forwards;
   }
 
   .fb-logo {
@@ -247,6 +247,8 @@
   ul {
     @extend .semantic-list;
     position: relative;
+    scroll-behavior: smooth;
+    // pointer-events: none;
 
     li {
       font-size: 34px;
@@ -256,6 +258,7 @@
       position: relative;
       will-change: color;
       white-space: nowrap;
+      // pointer-events: none;
       transition: color 0.5s linear;
       font-variation-settings: 'wdth' 490;
 
@@ -333,6 +336,16 @@
       padding-bottom: 50vh;
       scroll-snap-type: y mandatory;
       padding-top: calc(50vh - 17px);
+      -ms-overflow-style: none;
+      scrollbar-color: transparent transparent; /*just hides the scrollbar for firefox */
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      &::-moz-scrollbar {
+        display: none;
+
+      }
 
       li {
         right: 50%;

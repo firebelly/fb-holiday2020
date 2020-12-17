@@ -1,6 +1,5 @@
 // Common js
 import appState from '../util/appState';
-import { gsap } from "gsap";
 
 // Shared vars
 let $window = $(window),
@@ -35,6 +34,7 @@ const common = {
     common.scrollingText();
     common.introScreen();
     common.partyPoppers();
+    common.customCursor();
 
     // Get URL Params
     function getUrlParameter(name) {
@@ -89,6 +89,9 @@ const common = {
       body.classList.add('entered');
       inScrollingSection = true;
       introSection.classList.add('hidden');
+      setTimeout(function() {
+        introSection.remove();
+      }, 1100);
     }
   },
 
@@ -154,16 +157,9 @@ const common = {
     updateFontParams();
 
     function update() {
-      activeIndex = Math.floor(scrollingLeft.scrollTop / itemH);
-      scrollingLeftPos = scrollingLeft.scrollTop;
+      updateActiveItems();
 
-      // remove active class
-      let oldItems = scrollingSection.querySelectorAll('li.-active');
-      if (oldItems) {
-        oldItems.forEach(function(item) {
-          item.classList.remove('-active');
-        });
-      }
+      scrollingLeftPos = scrollingLeft.scrollTop;
 
       // Update scrolling position of right-hand side
       scrollingRight.style.transform = "translate3d(0, " + scrollingLeftPos + "px, 0)";
@@ -185,11 +181,10 @@ const common = {
 
       updateFontParams();
 
-      window.clearTimeout( isScrolling );
-      // Set a timeout to run after scrolling ends
-      isScrolling = setTimeout(function() {
-        updateActiveItems();
-      }, 66);
+      // window.clearTimeout( isScrolling );
+      // // Set a timeout to run after scrolling ends
+      // isScrolling = setTimeout(function() {
+      // }, 66);
       ticking = false;
     };
     update();
@@ -211,8 +206,26 @@ const common = {
     // Run the stuff on scroll!
     scrollingLeft.addEventListener('scroll', onScroll);
 
+    // Navigation
+    scrollingSection.addEventListener('click', function(event) {
+      if (event.clientY < halfway && activeIndex !== 0) {
+        scrollingLeft.scrollTop -= itemH;
+      } else if (event.clientY > halfway && activeIndex !== wordCount - 1) {
+        scrollingLeft.scrollTop += itemH;
+      }
+    });
+
     // Add active class after scrolling stops
     function updateActiveItems() {
+      activeIndex = Math.floor(scrollingLeft.scrollTop / itemH);
+
+      // remove active class
+      let oldItems = scrollingSection.querySelectorAll('li.-active');
+      if (oldItems.length) {
+        oldItems.forEach(function(item) {
+          item.classList.remove('-active');
+        });
+      }
 
       scrollingLists.forEach(function(element) {
         let newItem = element.querySelector('[data-index="' + activeIndex + '"]');
@@ -226,6 +239,45 @@ const common = {
     itemH = scrollingLeft.querySelector('li').offsetHeight;
     itemHalfHeight = itemH / 2;
     halfway = window.innerHeight / 2;
+  },
+
+  customCursor() {
+    let follower, init, mouseX, mouseY, positionElement, timer;
+    follower = document.getElementById('follower');
+
+    mouseX = event => {
+      return event.clientX;
+    };
+
+    mouseY = event => {
+      return event.clientY;
+    };
+
+    positionElement = event => {
+      var mouse;
+      mouse = {
+        x: mouseX(event),
+        y: mouseY(event) };
+
+      if (mouse.y > halfway) {
+        follower.classList.add('reverse');
+      } else {
+        follower.classList.remove('reverse');
+      }
+
+      follower.style.top = mouse.y + 'px';
+      return follower.style.left = mouse.x + 'px';
+    };
+
+    timer = false;
+
+    window.onmousemove = init = event => {
+      var _event;
+      _event = event;
+      return timer = setTimeout(() => {
+        return positionElement(_event);
+      }, 1);
+    };
   },
 
   // Todo: eyes track mouse

@@ -8,6 +8,7 @@ html {
 }
 
 body {
+  cursor: none;
   font-size: 16px;
   color: color('black');
   font-family: 'Obviously';
@@ -27,8 +28,24 @@ body {
   }
 }
 
-::-webkit-scrollbar {
-  display: none;
+#follower {
+  top: 50%;
+  left: 50%;
+  z-index: 500;
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: exclusion;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease-out;
+  svg {
+    width: 160px;
+    height: 160px;
+    fill: color('white');
+  }
+
+  &.reverse {
+    transform: translate(-50%, -50%) rotate(-180deg);
+  }
 }
 
 a {
