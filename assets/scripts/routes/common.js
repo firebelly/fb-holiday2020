@@ -248,7 +248,7 @@ const common = {
 
   customCursor() {
     let follower, init, mouseX, mouseY, positionElement, timer;
-    follower = document.getElementById('follower');
+    follower = document.getElementById('cursor');
 
     mouseX = event => {
       return event.clientX;
@@ -263,6 +263,20 @@ const common = {
       mouse = {
         x: mouseX(event),
         y: mouseY(event) };
+
+      let hoveredEl = document.elementFromPoint(mouse.x, mouse.y),
+          $hoveredEl = $(hoveredEl);
+
+
+      if ($hoveredEl.is('.js-button-cursor') || $hoveredEl.parents('.js-button-cursor').length) {
+        if (!follower.matches('.button-cursor')) {
+          follower.classList.add('button-cursor');
+          follower.innerHTML = '<svg class="eyes-gleaming" aria-hidden="true" role="presentation"><use xlink:href="#icon-eyes-gleaming"/></svg><svg class="eyes-open" aria-hidden="true" role="presentation"><use xlink:href="#icon-eyes-open"/></svg>';
+        }
+      } else {
+        follower.classList.remove('button-cursor');
+        follower.innerHTML = '<svg class="hand-cursor" aria-hidden="true" role="presentation"><use xlink:href="#hand-cursor"/></svg>';
+      }
 
       if (mouse.y > halfway) {
         follower.classList.add('reverse');

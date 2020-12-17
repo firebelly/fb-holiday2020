@@ -78,3 +78,30 @@
     clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
   }
 }
+
+@keyframes blinkOpen {
+  0%, 60% {
+    opacity: 1;
+  }
+  61%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes blinkClosed {
+  0%, 60% {
+    opacity: 0;
+  }
+  61%, 100% {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(360deg);
+  }
+}

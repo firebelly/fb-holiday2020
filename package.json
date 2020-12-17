@@ -35,9 +35,7 @@
     "vue-template-compiler": "^2.6"
   },
   "dependencies": {
-    "gsap": "^3.5.1",
     "jquery": "^3.4",
-    "js-dom-router": "^1.0",
-    "velocity-animate": "^2.0.6"
+    "js-dom-router": "^1.0"
   }
 }

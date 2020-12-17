@@ -54,6 +54,11 @@
 
   button {
     margin-top: 20px;
+
+    &:hover,
+    &:focus {
+      animation: spin 3s infinite linear;
+    }
   }
 
   @include media-md {
@@ -124,6 +129,7 @@
       text-shadow: none;
       text-align: center;
       white-space: normal;
+      transition: height 0.2s ease-out;
       animation: bounceOut 0.25s forwards;
       font-variation-settings: 'wdth' 490;
       filter: drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.35));
@@ -166,6 +172,8 @@
     }
 
     &.expandable {
+      transform: rotate(5deg) translateY(-50%);
+
       > .-inner {
         padding-bottom: 60px;
       }
@@ -255,7 +263,7 @@
     li {
       font-size: 34px;
       font-weight: 475;
-      line-height: 1.18;
+      line-height: 1.25;
       color: transparent;
       position: relative;
       will-change: color;
@@ -282,13 +290,21 @@
       &.giving-care {
         .sticky-note {
           left: 230px;
-          transform: rotate(-10deg) translateY(-30px);
+          margin-top: 40px;
+          transform: rotate(-10deg) translateY(-50%);
+        }
+      }
+
+      &.staying-strong {
+        .sticky-note {
+          margin-top: -30px;
         }
       }
 
       &.protecting-rights {
         .sticky-note {
-          left: 160px;
+          left: 260px;
+          margin-top: 60px;
         }
       }
 
@@ -297,14 +313,16 @@
           top: auto;
           left: 144px;
           bottom: 100%;
+          margin-bottom: -20px;
           transform: rotate(-10deg);
         }
       }
 
       &.stepping-up {
         .sticky-note {
-          right: 132px;
-          transform: rotate(10deg);
+          right: 180px;
+          margin-top: 65px;
+          transform: rotate(10deg) translateY(-50%);
         }
       }
 
@@ -313,6 +331,7 @@
           top: auto;
           left: 131px;
           bottom: 100%;
+          margin-bottom: -70px;
           transform: rotate(10deg);
         }
       }
@@ -323,6 +342,13 @@
           left: 131px;
           bottom: 100%;
           transform: rotate(-5deg);
+
+          a {
+            &:hover,
+            &:focus {
+              color: color('green');
+            }
+          }
         }
         .vote-prompt {
           left: 0;

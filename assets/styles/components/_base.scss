@@ -10,6 +10,7 @@ html {
 body {
   cursor: none;
   font-size: 16px;
+  overflow: hidden;
   color: color('black');
   font-family: 'Obviously';
 	background: color('gray');
@@ -28,7 +29,7 @@ body {
   }
 }
 
-#follower {
+#cursor {
   top: 50%;
   left: 50%;
   z-index: 500;
@@ -43,8 +44,26 @@ body {
     fill: color('white');
   }
 
-  &.reverse {
+  &.reverse:not(.button-cursor) {
     transform: translate(-50%, -50%) rotate(-180deg);
+  }
+
+  &.button-cursor {
+    svg {
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      transform: translate(-50%, -50%);
+
+      &.eyes-open {
+        animation: blinkOpen 2s forwards infinite;
+      }
+      &.eyes-gleaming {
+        animation: blinkClosed 2s forwards infinite;
+      }
+    }
   }
 }
 
