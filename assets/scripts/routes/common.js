@@ -204,7 +204,7 @@ const common = {
           if (fontWeight > 800) {
             fontWeight = 800;
           }
-          item.style.opacity =  0.9 - (offset * 0.002);
+          item.style.opacity =  0.6 - (offset * 0.001);
           item.style.fontVariationSettings = '"wdth" ' + fontWidth;
           item.style.fontWeight = fontWeight;
         }
