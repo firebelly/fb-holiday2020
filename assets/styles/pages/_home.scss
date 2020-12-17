@@ -55,10 +55,19 @@
   button {
     margin-top: 20px;
 
+    .tada {
+      fill: color('gray');
+      transform-origin: center center;
+      transition: transform 0.2s ease-out;
+    }
+
     &:hover,
     &:focus {
       .burst {
         animation: spin 10s infinite linear;
+      }
+      .tada {
+        transform: scale(1.1) translate(-50%, -50%);
       }
     }
   }
@@ -92,25 +101,15 @@
   @each $color, $value in $colors {
     &[data-color="#{$color}"] {
       li {
-        &:not(.-active) {
-          // text-shadow:
-          // -1px -1px 0 $value,
-          //  1px -1px 0 $value,
-          //  -1px 1px 0 $value,
-          //   1px 1px 0 $value;
-        }
         color: $value;
         opacity: 0.35;
         &.-active {
-          opacity: 1;
+          opacity: 1!important;
         }
       }
     }
     &[data-background="#{$color}"] {
       background-color: $value;
-      // li:not(.-active) {
-      //   color: $value;
-      // }
     }
   }
 
